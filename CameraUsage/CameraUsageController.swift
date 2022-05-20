@@ -137,8 +137,12 @@ class CameraUsageController {
         }
         if let url = UserDefaults.standard.url(forKey: urlKey) {
             
-            
-            URLSession.shared.dataTask(with: url) { (data, response, error) in
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            let postString = "time=" + Date().URLEncoded
+            request.httpBody = postString.data(using: String.Encoding.utf8)
+
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
                 print("done updating")
             }.resume()
         }
